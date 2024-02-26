@@ -17,20 +17,25 @@ model User { // User Table
   name String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  sleepdays SleepDay[] 
-  sleepmonths SleepMonth[]
+  sleepDays SleepDay[] 
+  sleepMonths SleepMonth[]
 }
 
 model SleepDay {
   id Int @id @default(autoincrement())
-  sleeprating String
-  author User @relation(fields: [authorId], references: [id])
-  authorId Int
-
+  sleepRating Int[]
+  userId Int
+  user User @relation(fields: [userId], references: [id]) // points to the owner user for there id to be referenced as the userId
+  sleepMonthId Int
+  sleepMonth SleepMonth @relation(fields: [sleepMonthId], references: [id]) // point to the sleepmonth to reference the sleepmonth id as the id
+  createdAt DateTime @default(now())
 }
 
 model SleepMonth {
   id Int @id @default(autoincrement())
-  author User @relation(fields: [authorId], references: [id])
+  author User @relation(fields: [authorId], references: [id]) // sleepMonth author id is refrenced by the user id
   authorId Int
+  sleepDays SleepDay[] // sleep month can have many ssleep days
+  startDate DateTime @default(now())
+  endDate DateTime @default(now())
 }

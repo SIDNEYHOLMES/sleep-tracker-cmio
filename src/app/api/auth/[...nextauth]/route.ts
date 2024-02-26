@@ -14,24 +14,24 @@ const handler = NextAuth({
   ],
   callbacks: {
     async signIn({ account, profile }) {
-      if(!profile?.email) {
+      if(!profile?.email) { // if there is no profile returned from the google authentication error throw
         throw new Error('No Profile')
       }
 
-      await prisma.user.upsert({
+      await prisma.user.upsert({ // google auth Success! check via email for database match
         where: {
           email: profile.email,
-        },
-        create: {
+        }, 
+        create: { // if the email does not exsist create the user in the database with the email and name from the google provider
           email: profile.email,
           name: <string> profile.name,
         },
-        update: {
+        update: { // otherwise update the name (in case someone changes there google name)
           name: profile.name,
         }
       })
 
-      return true;
+      return true
     }
   }
 })
