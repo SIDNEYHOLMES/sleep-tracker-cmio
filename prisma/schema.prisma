@@ -22,20 +22,22 @@ model User { // User Table
 }
 
 model SleepDay {
-  id Int @id @default(autoincrement())
-  sleepRating Int[]
-  userId Int
-  user User @relation(fields: [userId], references: [id]) // points to the owner user for there id to be referenced as the userId
-  sleepMonthId Int
-  sleepMonth SleepMonth @relation(fields: [sleepMonthId], references: [id]) // point to the sleepmonth to reference the sleepmonth id as the id
-  createdAt DateTime @default(now())
+  id            Int       @id @default(autoincrement())
+  date          DateTime
+  sleepRating   Int       // Assuming single rating per day
+  user          User      @relation(fields: [userId], references: [id])
+  userId        Int
+  sleepMonthId  Int
+  sleepMonth    SleepMonth @relation(fields: [sleepMonthId], references: [id]) // Optional, if you want to associate with a month
+  createdAt     DateTime  @default(now())
 }
 
 model SleepMonth {
-  id Int @id @default(autoincrement())
-  author User @relation(fields: [authorId], references: [id]) // sleepMonth author id is refrenced by the user id
-  authorId Int
-  sleepDays SleepDay[] // sleep month can have many ssleep days
-  startDate DateTime @default(now())
-  endDate DateTime @default(now())
+ id          Int         @id @default(autoincrement())
+  author      User        @relation(fields: [authorId], references: [id])
+  authorId    Int
+  sleepDays   SleepDay[]  // Sleep month can have many sleep days
+  startDate   DateTime    // Start date of the month
+  endDate     DateTime    // End date of the month
+  createdAt   DateTime    @default(now())
 }

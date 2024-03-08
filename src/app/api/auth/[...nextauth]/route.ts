@@ -4,9 +4,9 @@ import prisma from '../../../../../lib/prisma'
 
 const handler = NextAuth({
   session: {
-    strategy: 'jwt'
+    strategy: 'jwt' // jwt security strat
   },
-  providers: [
+  providers: [ // google authentication provider for NextAuth
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? ""
@@ -32,8 +32,7 @@ const handler = NextAuth({
       })
 
       return true
-    }
-  }
-})
+    },
+  }})
 
 export { handler as GET, handler as POST}
