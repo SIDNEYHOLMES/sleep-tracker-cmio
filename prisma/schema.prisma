@@ -10,34 +10,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model User { // User Table
-  id Int @id @default(autoincrement()) 
-  email String @unique
-  name String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  sleepDays SleepDay[] 
+model User {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  name        String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  sleepDays   SleepDay[]
   sleepMonths SleepMonth[]
 }
 
 model SleepDay {
-  id            Int       @id @default(autoincrement())
-  date          DateTime
-  sleepRating   Int       // Assuming single rating per day
-  user          User      @relation(fields: [userId], references: [id])
-  userId        Int
-  sleepMonthId  Int
-  sleepMonth    SleepMonth @relation(fields: [sleepMonthId], references: [id]) // Optional, if you want to associate with a month
-  createdAt     DateTime  @default(now())
+  id           Int        @id @default(autoincrement())
+  date         DateTime
+  sleepRating  Int // Assuming single rating per day
+  user         User       @relation(fields: [userId], references: [id])
+  userId       Int
+  sleepWeekId  Int
+  sleepWeek    SleepWeek     @relation(fields: [sleepWeekId], references: [id]) // Optional, if you want to associate with a month
+  createdAt    DateTime   @default(now())
+}
+
+model SleepWeek {
+  id        Int @id @default(autoincrement())
+  startDate DateTime
+  endDate   DateTime
+  sleepDays SleepDay[]
+  sleepMonthId Int
+  sleepMonth SleepMonth @relation(fields: [sleepMonthId], references: [id])
+  createdAt   DateTime   @default(now())
 }
 
 model SleepMonth {
- id          Int         @id @default(autoincrement())
-  author      User        @relation(fields: [authorId], references: [id])
+  id          Int        @id @default(autoincrement())
+  author      User       @relation(fields: [authorId], references: [id])
   authorId    Int
-  sleepDays   SleepDay[]  // Sleep month can have many sleep days
-  startDate   DateTime    // Start date of the month
-  endDate     DateTime    // End date of the month
-  createdAt   DateTime    @default(now())
+  sleepDays   SleepWeek[] // Sleep month can have many sleep days
+  sleepWeekId Int[]
+  startDate   DateTime // Start date of the month
+  endDate     DateTime // End date of the month
+  createdAt   DateTime   @default(now())
 }
