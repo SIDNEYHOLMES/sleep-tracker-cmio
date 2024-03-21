@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import CurrentMonth from "./components/month/CurrentMonth";
 
 export default function Home() {
-  const {data: session} = useSession(); // session 
+  const {data: session} = useSession(); // request session to check user login
   
   if (session) {// if a session is active by a user being logged in render below
     return(

@@ -1,4 +1,6 @@
+'use client'
 import React from 'react'
+import NewDayFourm from './NewDayFourm'
 
 // hours of sleep
 // start and end sleep time
@@ -6,7 +8,13 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div>New Day SLEEP PAGE</div>
+    <div>
+      <p>
+        New Day SLEEP PAGE
+      </p>
+      <NewDayFourm/>
+    </div>
+    
   )
 }
 
